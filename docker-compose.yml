@@ -1,0 +1,60 @@
+version: '3.3'
+
+services:
+  postgres:
+    container_name: postgres
+    hostname: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+    ports:
+      - "5433:5432"
+    restart: on-failure
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+  app:
+    container_name: currency_scraper
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - ${EXTERNAL_PORT}:${CONTAINER_PORT}
+    depends_on:
+      - redis
+      - postgres
+    restart: on-failure
+
+  redis:
+    image: redis:alpine
+    hostname: redis
+    container_name: redis
+    ports:
+      - "6380:6379"
+    restart: unless-stopped
+    command: redis-server --port 6379
+
+  celery-back:
+    build: .
+    container_name: celery-back-scraper
+    env_file:
+      - .env
+    command: celery -A project worker -l info
+    depends_on:
+      - redis
+
+  celery-beat:
+    build: .
+    container_name: celery-beat-scraper
+    env_file:
+      - .env
+    command: celery -A project beat -l info
+    depends_on:
+      - redis
+
+volumes:
+  postgresql-data:
