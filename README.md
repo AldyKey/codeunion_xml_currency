@@ -1,7 +1,9 @@
 
 # Currency Scraper
 
-Parse currencies from xml
+Scrape currencies from http://www.nationalbank.kz/rss/rates_all.xml and 
+update the currency rates in the database with specified 
+regularity.
 
 ## Requirements: ##
 - Docker

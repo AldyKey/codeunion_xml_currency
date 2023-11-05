@@ -102,11 +102,12 @@ CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', '')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
+UPDATE_REGULARITY = float(os.environ.get('UPDATE_REGULARITY', 30.0))
 
 CELERY_BEAT_SCHEDULE = {
     'currency_scraper': {
         'task': 'apps.currency.tasks.xml_scraping',
-        'schedule': 30.0,
+        'schedule': UPDATE_REGULARITY,
     },
 }
 
