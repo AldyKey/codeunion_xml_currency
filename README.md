@@ -38,6 +38,13 @@ Clone the repository
   ```
   docker-compose up -d --build 
   ```
+
+#### Run migrations inside the Docker container: ####
+
+  ```
+  docker exec -it currency_scraper python3 manage.py migrate
+  ```
+
 #### Access the django server at: ####
 
   ```
