@@ -149,3 +149,16 @@ Clone the repository
   docker exec -it currency_scraper python3 manage.py update_currency
 ```
 
+## Running Tests
+
+To run tests on currency app, run the following command
+
+```bash
+  docker exec -it currency_scraper python3 manage.py test apps.currency.tests
+```
+
+To run tests on user app, run the following command
+
+```bash
+  docker exec -it currency_scraper python3 manage.py test apps.user.tests
+```
